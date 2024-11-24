@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "432848913014",
+    "project_id": "marketplacekampus",
+    "storage_bucket": "marketplacekampus.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432848913014:android:f7e21becf49651fca75557",
+        "android_client_info": {
+          "package_name": "com.tifd.marketplacekampus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBy5d1ks2Z1afu56eVI4J2tdDXCO21BBlM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
