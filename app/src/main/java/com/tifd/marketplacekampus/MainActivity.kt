@@ -24,17 +24,26 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.tifd.marketplacekampus.ui.theme.MarketplaceKampusTheme
+import com.google.firebase.auth.FirebaseAuth
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth = FirebaseAuth.getInstance() // Inisialisasi Firebase Auth
+
         setContent {
             MarketplaceKampusTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MyScreen()
+                    AppNavigation(auth) // Memanggil fungsi AppNavigation
                 }
             }
         }
@@ -42,7 +51,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyScreen() {
+fun MyScreen(auth: FirebaseAuth, navController: NavHostController) {
     var inputText by remember { mutableStateOf("") }
     var passwordText by remember { mutableStateOf("") }
     var isFormFilled = inputText.isNotBlank() && passwordText.isNotBlank()
@@ -99,10 +108,19 @@ fun MyScreen() {
         // Submit Button
         Button(
             onClick = {
-                Toast.makeText(context, "Login Berhasil", Toast.LENGTH_SHORT).show()
-                // Reset fields after submission
-                inputText = ""
-                passwordText = ""
+                auth.signInWithEmailAndPassword(inputText, passwordText)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(context, "Login Berhasil", Toast.LENGTH_SHORT).show()
+                            navController.navigate("home") // Navigasi ke halaman Home
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Login Gagal: ${task.exception?.localizedMessage}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
             },
             modifier = Modifier
                 .fillMaxWidth(0.8f)
@@ -152,3 +170,19 @@ fun InputForm(
         )
     }
 }
+
+@Composable
+fun AppNavigation(auth: FirebaseAuth) {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "login") {
+        composable("login") {
+            MyScreen(auth, navController)
+        }
+        composable("home") {
+            HomeScreen(auth, navController)
+        }
+    }
+}
+
+
