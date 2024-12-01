@@ -68,10 +68,11 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation (platform("com.google.firebase:firebase-bom:32.3.1"))
-    implementation ("com.google.firebase:firebase-firestore-ktx")
-    implementation ("com.google.firebase:firebase-auth-ktx")
+    implementation ("com.google.firebase:firebase-firestore-ktx:24.7.0")
+    implementation ("com.google.firebase:firebase-auth-ktx:21.0.8")
     implementation ("com.google.firebase:firebase-firestore:24.6.0")
     implementation ("com.google.firebase:firebase-database:20.3.0")
     implementation ("androidx.navigation:navigation-compose:2.7.3")
-
+    implementation ("com.google.firebase:firebase-storage-ktx")
+    implementation("androidx.compose.material:material-icons-extended:1.5.1")
 }
